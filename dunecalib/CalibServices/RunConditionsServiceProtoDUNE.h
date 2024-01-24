@@ -28,11 +28,11 @@ namespace runc{
       virtual void   reconfigure(fhicl::ParameterSet const& pset)  override;
       void   preBeginRun(const art::Run& run); 
 
-      virtual provider_type* provider() const override { return fProp.get();}
+      //virtual provider_type* provider() const override { return fProp.get();}
 
     private:
 
-      std::unique_ptr<runc::RunConditionsProtoDUNE> fProp;
+      //std::unique_ptr<runc::RunConditionsProtoDUNE> fProp;
 
     }; // class RunConditionsServiceProtoDUNE
 } //namespace runc

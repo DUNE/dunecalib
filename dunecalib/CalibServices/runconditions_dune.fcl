@@ -1,0 +1,15 @@
+BEGIN_PROLOG
+
+protodune_runconditions :
+{
+  service_provider: "RunConditionsServiceProtoDUNE"
+
+  # IsMC: false
+  # UseCondbLifetime: false
+  # Interpolate: true
+  # LifetimeFileName: ""
+  # LifetimeDBTag: ""
+
+}
+
+END_PROLOG

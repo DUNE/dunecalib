@@ -22,12 +22,12 @@
 #include "cetlib_except/exception.h"
 
 //-----------------------------------------------
-runc::RunCondtitionsServiceProtoDUNE::RunConditionsServiceProtoDUNE(fhicl::ParameterSet const& pset, art::ActivityRegistry &reg)
+runc::RunConditionsServiceProtoDUNE::RunConditionsServiceProtoDUNE(fhicl::ParameterSet const& pset, art::ActivityRegistry &reg)
 {
   std::cout << "Service funtion 1" << std::endl;
   //fProp.reset(new calib::LifetimeCalibProtoDUNE(pset));
 
-  //reg.sPreBeginRun.watch(this, &LifetimeCalibServiceProtoDUNE::preBeginRun);
+  reg.sPreBeginRun.watch(this, &RunConditionsServiceProtoDUNE::preBeginRun);
 }
 
 //----------------------------------------------
