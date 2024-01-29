@@ -103,7 +103,7 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   
   t.SetDetector("pdunesp");
   t.SetTableName(fTableName);
-  t.SetTableType(nutools::dbi::kConditionsTable);
+  t.SetTableType(nutools::dbi::kUnstructuredConditionsTable); //kConditionsTable);
   t.SetDataTypeMask(nutools::dbi::kDataOnly);
   if (fIsMC)
     t.SetDataTypeMask(nutools::dbi::kMCOnly);

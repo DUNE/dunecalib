@@ -1,4 +1,4 @@
-#include "dunecalib/Calib/LinCalibProtoDUNE.h"
+#include "dunecalib/Calib/RunConditionsProtoDUNE.h"
 
 #include "nuevdb/IFDatabase/Table.h"
 #include <getopt.h>
@@ -7,12 +7,13 @@
 int gRun = -1;
 std::string gDataType = "data";
 std::string gCSVFile = "";
+std::string gTableName = "";
 
 //------------------------------------------------------------
 
 void PrintUsage()
 {
-  std::cout << "Usage: getLinConstsProtoDUNE -r|--run [run number] -d|--datatype [data|mc] -f|--file [csv file] " << std::endl;
+  std::cout << "Usage: getRunConditionsProtoDUNE -r|--run [run number] -d|--datatype [data|mc] -f|--file [csv file] -t|--table [db table name]" << std::endl;
 }
 
 //------------------------------------------------------------
@@ -25,13 +26,14 @@ bool ParseCLArgs(int argc, char* argv[])
     {"run",   0, 0, 'r'},
     {"datatype",   0, 0, 'd'},
     {"file",   0, 0, 'f'},
+    {"table",   0, 0, 't'},
     {0,0,0,0}
   };
 
   while (1) {
     int optindx;
 
-    int c = getopt_long(argc,argv,"hr:d:f:",long_options,&optindx);
+    int c = getopt_long(argc,argv,"hr:d:f:t:",long_options,&optindx);
         
     if (c==-1) break;
     
@@ -55,6 +57,11 @@ bool ParseCLArgs(int argc, char* argv[])
       {
 	gCSVFile = optarg;
 	break;
+      }
+    case 't':
+      {
+        gTableName = optarg;
+        break;
       }
     case 'h':
     default:
@@ -82,22 +89,22 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  calib::LinCalibProtoDUNE* linCalib = new calib::LinCalibProtoDUNE();
+  runc::RunConditionsProtoDUNE* runCond = new runc::RunConditionsProtoDUNE();
 
-  linCalib->SetIsMC((gDataType == "mc"));
-  linCalib->SetUseCondb(true);
+  //runCond->SetIsMC(false); //(gDataType == "data"));
+  runCond->SetUseCondb(true);
   if (! gCSVFile.empty())
-    linCalib->SetCSVFileName(gCSVFile);
-
-  linCalib->Update(gRun);
-
-  calib::LinConsts_t lc = linCalib->GetLinConsts(100);
-  std::cout << "Linearity constants correction for channel 100:" 
+    runCond->SetCSVFileName(gCSVFile);
+  runCond->SetTableName(gTableName);
+  runCond->Update(gRun);
+  std::cout << "I think the database has not been accessed? " << std::endl;
+  runc::RunCond_t rc = runCond->GetRunConditions(0);
+  std::cout << "Run Conditions for channel 0:" 
 	    << std::endl; 
-  std::cout << "\tGain = " << lc.gain
-	    << "\n\tOffset = " << lc.offset << std::endl;
+  //std::cout << "\tGain = " << lc.gain
+  //	    << "\n\tOffset = " << lc.offset << std::endl;
 
-  delete linCalib;
+  delete runCond;
   
   return 0;
 }
