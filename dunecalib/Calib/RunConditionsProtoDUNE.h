@@ -31,8 +31,8 @@ namespace runc {
   typedef struct {
     float run_number;
     std::string data_type;
-    //float offset;
-    //float shape;
+    float upload_t;
+    //std::string run_type;
     //float chi2;
     //int adc_low;
     //int adc_high;

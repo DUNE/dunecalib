@@ -101,8 +101,9 @@ int main(int argc, char **argv)
   runc::RunCond_t rc = runCond->GetRunConditions(0);
   std::cout << "Run Conditions for channel 0:" 
 	    << std::endl; 
-  //std::cout << "\tGain = " << lc.gain
-  //	    << "\n\tOffset = " << lc.offset << std::endl;
+  std::cout << "\tData type = " << rc.data_type
+            << "\n\tRun Number = " << rc.run_number
+  	    << "\n\tupload time = " << rc.upload_t << std::endl;
 
   delete runCond;
   

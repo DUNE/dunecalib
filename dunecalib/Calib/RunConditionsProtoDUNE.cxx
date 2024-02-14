@@ -102,16 +102,18 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   nutools::dbi::Table t;
   
   t.SetDetector("pdunesp");
+  t.SetFolderName("pdunesp");
+  t.SetConDBUURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
   t.SetTableName(fTableName);
   t.SetTableType(nutools::dbi::kUnstructuredConditionsTable); //kConditionsTable);
-  t.SetDataTypeMask(nutools::dbi::kDataOnly);
-  if (fIsMC)
-    t.SetDataTypeMask(nutools::dbi::kMCOnly);
+  //t.SetDataTypeMask(nutools::dbi::kDataOnly);
+  //if (fIsMC)
+  //  t.SetDataTypeMask(nutools::dbi::kMCOnly);
   
-  //int run_number = t.AddCol("run","float");
-  //int data_type  = t.AddCol("data_type","string");
-  //int offsetIdx = t.AddCol("offset","float");
-  //int shapeIdx  = t.AddCol("shape","float");
+  int run_numberIdx = t.AddCol("start_time","float");
+  int data_typeIdx  = t.AddCol("data_type","string");
+  int upload_tIdx   = t.AddCol("upload_time","float");
+  //int run_typeIdx  = t.AddCol("run_type","string");
   //int chi2Idx   = t.AddCol("chi2","float");
   //int adcLowIdx = t.AddCol("adc_low","int");
   //int adcHiIdx  = t.AddCol("adc_high","int");
@@ -120,6 +122,7 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   //for (int i=0; i<20; ++i) {
   //  sprintf(buff,"nl%d",i);
   //  nlIdx[i] = t.AddCol(buff,"float");
+
   //}
   
   //So as not to interpolate
@@ -154,10 +157,11 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
     row = t.GetRow(i);
     std::cout << row << std::endl;      
     chan = row->Channel();
-    //row->Col(statusIdx).Get(c.status);
-    //row->Col(gainIdx).Get(c.gain);
-    //row->Col(offsetIdx).Get(c.offset);
-    //row->Col(shapeIdx).Get(c.shape);
+    std::cout << "channel is: " << chan << std::endl;
+    row->Col(run_numberIdx).Get(c.run_number);
+    row->Col(data_typeIdx).Get(c.data_type);
+    row->Col(upload_tIdx).Get(c.upload_t);
+    //row->Col(run_typeIdx).Get(c.run_type);
     //row->Col(chi2Idx).Get(c.chi2);
     //row->Col(adcLowIdx).Get(c.adc_low);
     //row->Col(adcHiIdx).Get(c.adc_high);
