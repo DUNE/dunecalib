@@ -106,13 +106,15 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   t.SetConDBUURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
   t.SetTableName(fTableName);
   t.SetTableType(nutools::dbi::kUnstructuredConditionsTable); //kConditionsTable);
-  //t.SetDataTypeMask(nutools::dbi::kDataOnly);
+  t.SetDataTypeMask(nutools::dbi::kDataOnly);
   //if (fIsMC)
   //  t.SetDataTypeMask(nutools::dbi::kMCOnly);
   
-  int run_numberIdx = t.AddCol("start_time","float");
+  //int run_numberIdx = t.AddCol("software_version","string");
   int data_typeIdx  = t.AddCol("data_type","string");
   int upload_tIdx   = t.AddCol("upload_time","float");
+  int start_timeIdx = t.AddCol("start_time","float");
+  int stop_timeIdx  = t.AddCol("stop_time","float");
   //int run_typeIdx  = t.AddCol("run_type","string");
   //int chi2Idx   = t.AddCol("chi2","float");
   //int adcLowIdx = t.AddCol("adc_low","int");
@@ -128,16 +130,16 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   //So as not to interpolate
   t.SetMinTSVld(fCurrentTS);
   t.SetMaxTSVld(fCurrentTS);
-  t.SetTag(fDBTag);
+  //t.SetTag(fDBTag);
 
   t.SetVerbosity(100);
-
+  std::cout << "aqui si "  << std::endl;
   bool readOk = false;
   if (!fCSVFileName.empty()) 
     readOk = t.LoadFromCSV(fCSVFileName);
   else
     readOk = t.Load();
-
+  std::cout << "aqui no "  << std::endl;
   if (! readOk) {
     mf::LogError("RunConditionsProtoDUNE") << "Load from run conditions database table failed.";
     
@@ -155,12 +157,17 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   for (int i=0; i<t.NRow(); ++i) {
     RunCond_t c;
     row = t.GetRow(i);
-    std::cout << row << std::endl;      
+    //std::cout << row << std::endl;      
     chan = row->Channel();
     std::cout << "channel is: " << chan << std::endl;
-    row->Col(run_numberIdx).Get(c.run_number);
+    //row->Col(run_numberIdx).Get(c.run_number);
+    //The run number is stored in the tv
+    c.run_number = row->VldTime();
     row->Col(data_typeIdx).Get(c.data_type);
     row->Col(upload_tIdx).Get(c.upload_t);
+    row->Col(start_timeIdx).Get(c.start_time);
+    std::cout << "3 loaded" << std::endl;
+    row->Col(stop_timeIdx).Get(c.stop_time);
     //row->Col(run_typeIdx).Get(c.run_type);
     //row->Col(chi2Idx).Get(c.chi2);
     //row->Col(adcLowIdx).Get(c.adc_low);

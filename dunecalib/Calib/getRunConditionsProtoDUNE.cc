@@ -97,12 +97,12 @@ int main(int argc, char **argv)
     runCond->SetCSVFileName(gCSVFile);
   runCond->SetTableName(gTableName);
   runCond->Update(gRun);
-  std::cout << "I think the database has not been accessed? " << std::endl;
   runc::RunCond_t rc = runCond->GetRunConditions(0);
   std::cout << "Run Conditions for channel 0:" 
 	    << std::endl; 
-  std::cout << "\tData type = " << rc.data_type
-            << "\n\tRun Number = " << rc.run_number
+  std::cout << "\tstart time = " << rc.start_time
+            << "\n\t data type = " << rc.data_type
+            << "\n\tRun Number/sofw = " << rc.run_number
   	    << "\n\tupload time = " << rc.upload_t << std::endl;
 
   delete runCond;

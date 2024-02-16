@@ -29,14 +29,16 @@
 namespace runc {
 
   typedef struct {
+    // All the parameters from the run conditinos DB 
     float run_number;
     std::string data_type;
     float upload_t;
+    float start_time;
+    float stop_time;
     //std::string run_type;
-    //float chi2;
-    //int adc_low;
-    //int adc_high;
-    //float nl[20];
+    //std::string software_version;
+    //int buffer;
+    //bool ac_couple;
   } RunCond_t;
 
   class RunConditionsProtoDUNE : public RunConditions {
