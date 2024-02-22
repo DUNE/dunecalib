@@ -14,7 +14,6 @@ cet_build_plugin(XYZCalibServiceProtoDUNE art::service
 	      messagefacility::MF_MessageLogger
   	      cetlib::cetlib 
 	      cetlib_except::cetlib_except
-   	      ROOT_BASIC_LIB_LIST
               
 )
 
@@ -34,7 +33,6 @@ cet_build_plugin(LifetimeCalibServiceProtoDUNE art::service
       canvas::canvas
       cetlib::cetlib 
       cetlib_except::cetlib_except
-      ROOT_BASIC_LIB_LIST
 
 ) 
 

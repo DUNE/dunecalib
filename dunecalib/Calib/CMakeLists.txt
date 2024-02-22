@@ -10,21 +10,21 @@ art_make_library(  LIBRARY_NAME  dunecalib::Calib
 			cetlib_except::cetlib_except
                         messagefacility::MF_MessageLogger
 			fhiclcpp::fhiclcpp
-                        ROOT_BASIC_LIB_LIST
+			ROOT::Core ROOT::Hist
 			
         )
  
-art_make_exec( NAME getXYZCalibProtoDUNE
+cet_make_exec( NAME getXYZCalibProtoDUNE
                SOURCE getXYZCalibProtoDUNE.cc                 
                LIBRARIES
 			dunecalib::Calib
-               )
+               ) ### MIGRATE-CHANGED (migrate-3.22.02) - art_make_exec() -> cet_make_exec()
 
-art_make_exec( NAME getLinConstsProtoDUNE
+cet_make_exec( NAME getLinConstsProtoDUNE
                SOURCE getLinConstsProtoDUNE.cc                 
                LIBRARIES
 			dunecalib::Calib
-               )
+               ) ### MIGRATE-CHANGED (migrate-3.22.02) - art_make_exec() -> cet_make_exec()
 
 install_headers()
 install_fhicl()
