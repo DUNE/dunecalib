@@ -52,6 +52,9 @@ namespace runc {
       
     bool Configure(fhicl::ParameterSet const& pset);
     bool Update(uint64_t ts=0);
+
+    bool LoadConditionsT();
+
     
     RunCond_t GetRunConditions(int chanId); 
     
@@ -60,10 +63,10 @@ namespace runc {
     void SetCSVFileName(std::string f) { fCSVFileName = f; }
     void SetTag(std::string ta) { fDBTag = ta; }
     void SetTableName(std::string tn) {fTableName = tn; }
+    void SetTableURL(std::string url) {fTableURL = url; }
 
   protected:
       bool LoadRunConditions();
-
       bool fUseCondb;
       bool fRunConditionsLoaded;
       bool fIsMC;
@@ -71,6 +74,7 @@ namespace runc {
       std::string fCSVFileName;
       std::string fDBTag;
       std::string fTableName;
+      std::string fTableURL;
 
       std::map<int,RunCond_t> fRunCond;
 

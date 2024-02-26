@@ -91,7 +91,10 @@ int main(int argc, char **argv)
 
   runc::RunConditionsProtoDUNE* runCond = new runc::RunConditionsProtoDUNE();
 
-  //runCond->SetIsMC(false); //(gDataType == "data"));
+  runCond->SetTableURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
+  runCond->LoadConditionsT();
+
+  //Old code
   runCond->SetUseCondb(true);
   if (! gCSVFile.empty())
     runCond->SetCSVFileName(gCSVFile);

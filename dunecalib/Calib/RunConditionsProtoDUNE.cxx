@@ -18,6 +18,7 @@
 
 // LArSoft includes
 #include "dunecalib/Calib/RunConditionsProtoDUNE.h"
+#include "wda.h"
 
 // nutools includes
 #include "nuevdb/IFDatabase/Table.h"
@@ -36,6 +37,7 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE()
   fCSVFileName="";
   fDBTag="";
   fTableName="";
+  fTableURL="";
 }
 
 
@@ -51,6 +53,7 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE(
   fCSVFileName="";
   fDBTag="";
   fTableName="";
+  fTableURL="";
 }
 
 //------------------------------------------------
@@ -93,6 +96,16 @@ runc::RunCond_t runc::RunConditionsProtoDUNE::GetRunConditions(int chanId)
 }
 
 //------------------------------------------------
+bool runc::RunConditionsProtoDUNE::LoadConditionsT()
+{
+  Table ct;
+  ct.SetFolderURL(fTableURL);
+  ct.LoadConditionsTable();
+
+  return true; 
+}
+
+//------------------------------------------------
 bool runc::RunConditionsProtoDUNE::LoadRunConditions()
 {
   if (!fUseCondb) return true;
@@ -102,8 +115,8 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   nutools::dbi::Table t;
   
   t.SetDetector("pdunesp");
-  t.SetFolderName("pdunesp");
-  t.SetConDBUURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
+  //t.SetFolderName("pdunesp");
+  //t.SetConDBUURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
   t.SetTableName(fTableName);
   t.SetTableType(nutools::dbi::kUnstructuredConditionsTable); //kConditionsTable);
   t.SetDataTypeMask(nutools::dbi::kDataOnly);
