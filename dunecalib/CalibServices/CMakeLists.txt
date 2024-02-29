@@ -14,7 +14,8 @@ cet_build_plugin(XYZCalibServiceProtoDUNE art::service
 	      messagefacility::MF_MessageLogger
   	      cetlib::cetlib 
 	      cetlib_except::cetlib_except
-              
+              larcorealg::CoreUtils
+              larcore::headers
 )
 
 cet_build_plugin(LifetimeCalibServiceProtoDUNE art::service
@@ -33,7 +34,8 @@ cet_build_plugin(LifetimeCalibServiceProtoDUNE art::service
       canvas::canvas
       cetlib::cetlib 
       cetlib_except::cetlib_except
-
+      larcorealg::CoreUtils
+      larcore::headers
 ) 
 
 
