@@ -18,13 +18,13 @@ cet_make_exec( NAME getXYZCalibProtoDUNE
                SOURCE getXYZCalibProtoDUNE.cc                 
                LIBRARIES
 			dunecalib::Calib
-               ) ### MIGRATE-CHANGED (migrate-3.22.02) - art_make_exec() -> cet_make_exec()
+               )
 
 cet_make_exec( NAME getLinConstsProtoDUNE
                SOURCE getLinConstsProtoDUNE.cc                 
                LIBRARIES
 			dunecalib::Calib
-               ) ### MIGRATE-CHANGED (migrate-3.22.02) - art_make_exec() -> cet_make_exec()
+               )
 
 install_headers()
 install_fhicl()
