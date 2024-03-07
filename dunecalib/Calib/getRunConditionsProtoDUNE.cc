@@ -92,21 +92,28 @@ int main(int argc, char **argv)
   runc::RunConditionsProtoDUNE* runCond = new runc::RunConditionsProtoDUNE();
 
   runCond->SetTableURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
+  runCond->SetTableName("pdunesp.test");
+  runCond->Update(gRun);
+
   runCond->LoadConditionsT();
 
+
   //Old code
-  runCond->SetUseCondb(true);
-  if (! gCSVFile.empty())
-    runCond->SetCSVFileName(gCSVFile);
-  runCond->SetTableName(gTableName);
-  runCond->Update(gRun);
+  //runCond->SetUseCondb(true);
+  //if (! gCSVFile.empty())
+  //  runCond->SetCSVFileName(gCSVFile);
+  //runCond->SetTableName(gTableName);
+  //runCond->Update(gRun);
+  std::cout << "Get The run conditions " << std::endl;
   runc::RunCond_t rc = runCond->GetRunConditions(0);
   std::cout << "Run Conditions for channel 0:" 
-	    << std::endl; 
+  	    << std::endl; 
   std::cout << "\tstart time = " << rc.start_time
-            << "\n\t data type = " << rc.data_type
+            << "\n\tdata type = " << rc.data_type
             << "\n\tRun Number/sofw = " << rc.run_number
-  	    << "\n\tupload time = " << rc.upload_t << std::endl;
+  	    << "\n\tupload time = " << rc.upload_t
+            << "\n\tsoftware version = " << rc.software_version
+            << "\n\trun type = " << rc.run_type << std::endl;
 
   delete runCond;
   

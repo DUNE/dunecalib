@@ -10,6 +10,7 @@
 #define RUNC_RUNCONDITIONS_H
 
 #include "wda.h"
+#include "nuevdb/IFDatabase/Table.h"
 
 namespace runc {
   
@@ -38,14 +39,26 @@ namespace runc {
     virtual ~Table() = default;
 
 
-    void SetFolderName(std::string folder);
+
+    nutools::dbi::Row* const GetRow(int i);
+    int  AddCol(std::string cname, std::string ctype);
+    void AddEmptyRows(unsigned int nrow);
+    nutools::dbi::Row* const NewRow() { nutools::dbi::Row* r = new nutools::dbi::Row(fCol); return r;}
+    int NRow() {return fRow.size();}
+
+    void SetFolderName(std::string folder) {fFolder = folder;};
     void SetFolderURL(std::string url) {fConDBURL = url;};
+    void SetMinTSVld(double t) { fMinTSVld = t;}
+    void SetMaxTSVld(double t) { fMaxTSVld = t;}
+    void SetVerbosity(int i) { fVerbosity = i;}
+
     bool LoadConditionsTable();
 
   private:
 
     //bool LoadConditionsTable();
     bool GetDataFromWebService(Dataset&, std::string);
+    bool GetDataFromWebService_dev(Dataset&, std::string);
 
     std::string fFolder;
     std::string fConDBURL;
@@ -55,6 +68,9 @@ namespace runc {
     int     fConnectionTimeout;
     double  fMaxTSVld;
     double  fMinTSVld;
+
+    std::vector<nutools::dbi::ColumnDef> fCol;
+    std::vector<nutools::dbi::Row>    fRow;
 
   }; // class Table
 } //namespace runc

@@ -34,6 +34,7 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE()
   fIsMC = false;
   fRunConditionsLoaded = false;
   fCurrentTS = 0; // I think this one has to be the run number
+  fRunNumber = 0;
   fCSVFileName="";
   fDBTag="";
   fTableName="";
@@ -50,6 +51,7 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE(
   fIsMC = false;
   fRunConditionsLoaded = false;
   fCurrentTS = 0; //Run number?
+  fRunNumber = 0;
   fCSVFileName="";
   fDBTag="";
   fTableName="";
@@ -75,7 +77,9 @@ bool runc::RunConditionsProtoDUNE::Update(uint64_t ts)
     fRunConditionsLoaded = false;
   }
 
+  //database can load on time or run number
   fCurrentTS = ts;
+  fRunNumber = ts;
   // all done! 
 
   return true;
@@ -84,7 +88,7 @@ bool runc::RunConditionsProtoDUNE::Update(uint64_t ts)
 //------------------------------------------------
 runc::RunCond_t runc::RunConditionsProtoDUNE::GetRunConditions(int chanId) 
 {
-  if (!fRunConditionsLoaded) this->LoadRunConditions();
+  if (!fRunConditionsLoaded) this->LoadConditionsT();
 
   if (fRunCond.find(chanId) == fRunCond.end()) {
     mf::LogError("RunConditionsProtoDUNE") << "Channel " << chanId 
@@ -99,9 +103,51 @@ runc::RunCond_t runc::RunConditionsProtoDUNE::GetRunConditions(int chanId)
 bool runc::RunConditionsProtoDUNE::LoadConditionsT()
 {
   Table ct;
+  //URL to where the database is
   ct.SetFolderURL(fTableURL);
-  ct.LoadConditionsTable();
+  // table name of the database with the format schema.table or if no schema just the table name
+  ct.SetFolderName(fTableName);
+  //How much feedback do you want. 0 is none, 2 is all
+  ct.SetVerbosity(2); 
+  // So as not to interpolate
+  ct.SetMinTSVld(fRunNumber);
+  ct.SetMaxTSVld(fRunNumber);
 
+  //Add the column names and types of parameters that you want
+  //example
+  //int data_typeIdx  = t.AddCol("data_type","string");
+  int data_typeIdx  = ct.AddCol("data_type","string");
+  int upload_tIdx   = ct.AddCol("upload_time","float");
+  int start_timeIdx = ct.AddCol("start_time","float");
+  int software_versionIdx  = ct.AddCol("software_version","string");
+  int run_typeIdx   = ct.AddCol("run_type","strung");
+
+  //std::cout << "The id of data is: " << stop_timeIdx << std::endl;
+
+  ct.LoadConditionsTable();
+  //std::cout << "The id of data 1 is: " << stop_timeIdx << std::endl;
+  if (ct.NRow() == 0) {
+    mf::LogError("RunConditionsProtoDUNE") << "Number of rows in run conditions table is 0.  This should never be the case!";
+    return false;
+  }
+  long int chan;
+  nutools::dbi::Row* row;
+  for (int i=0; i<ct.NRow(); ++i) {
+    RunCond_t c;
+    row = ct.GetRow(i);
+    chan = row->Channel();
+    c.run_number = row->VldTime();
+    row->Col(data_typeIdx).Get(c.data_type);
+    row->Col(upload_tIdx).Get(c.upload_t);
+    row->Col(start_timeIdx).Get(c.start_time);
+    row->Col(software_versionIdx).Get(c.software_version);
+    //row->Col(stop_timeIdx).Get(c.stop_time);    
+    row->Col(run_typeIdx).Get(c.run_type);
+
+
+    fRunCond[chan] = c;
+  } 
+  fRunConditionsLoaded = true;
   return true; 
 }
 

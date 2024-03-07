@@ -35,8 +35,8 @@ namespace runc {
     float upload_t;
     float start_time;
     float stop_time;
-    //std::string run_type;
-    //std::string software_version;
+    std::string run_type;
+    std::string software_version;
     //int buffer;
     //bool ac_couple;
   } RunCond_t;
@@ -64,6 +64,7 @@ namespace runc {
     void SetTag(std::string ta) { fDBTag = ta; }
     void SetTableName(std::string tn) {fTableName = tn; }
     void SetTableURL(std::string url) {fTableURL = url; }
+    //void SetRunNumber()
 
   protected:
       bool LoadRunConditions();
@@ -71,6 +72,7 @@ namespace runc {
       bool fRunConditionsLoaded;
       bool fIsMC;
       uint64_t fCurrentTS;
+      uint64_t fRunNumber;
       std::string fCSVFileName;
       std::string fDBTag;
       std::string fTableName;
