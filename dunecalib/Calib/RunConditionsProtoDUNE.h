@@ -37,8 +37,8 @@ namespace runc {
     float stop_time;
     std::string run_type;
     std::string software_version;
-    //int buffer;
-    //bool ac_couple;
+    int buffer;
+    bool ac_couple;
   } RunCond_t;
 
   class RunConditionsProtoDUNE : public RunConditions {
@@ -58,23 +58,25 @@ namespace runc {
     
     RunCond_t GetRunConditions(int chanId); 
     
-    void SetIsMC(bool v) { fIsMC = v; }
-    void SetUseCondb(bool v) { fUseCondb = v; }
-    void SetCSVFileName(std::string f) { fCSVFileName = f; }
-    void SetTag(std::string ta) { fDBTag = ta; }
+    //void SetIsMC(bool v) { fIsMC = v; }
+    //void SetUseCondb(bool v) { fUseCondb = v; }
+    //void SetCSVFileName(std::string f) { fCSVFileName = f; }
+    //void SetTag(std::string ta) { fDBTag = ta; }
     void SetTableName(std::string tn) {fTableName = tn; }
     void SetTableURL(std::string url) {fTableURL = url; }
     //void SetRunNumber()
 
+    void GetRunNumber() {std::cout << "Run Number: "<< fRunNumber << std::endl;}
+
   protected:
       bool LoadRunConditions();
-      bool fUseCondb;
+      //bool fUseCondb;
       bool fRunConditionsLoaded;
-      bool fIsMC;
+      //bool fIsMC;
       uint64_t fCurrentTS;
       uint64_t fRunNumber;
-      std::string fCSVFileName;
-      std::string fDBTag;
+      //std::string fCSVFileName;
+      //std::string fDBTag;
       std::string fTableName;
       std::string fTableURL;
 

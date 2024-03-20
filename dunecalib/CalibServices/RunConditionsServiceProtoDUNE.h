@@ -16,7 +16,7 @@
 #include "art/Framework/Services/Registry/ServiceMacros.h"
 #include "art/Framework/Principal/Run.h"
 #include "art/Framework/Principal/Event.h"
-#include "dunecalib/Calib/LifetimeCalibProtoDUNE.h"
+#include "dunecalib/Calib/RunConditionsProtoDUNE.h"
 #include "dunecalib/CalibServices/RunConditionsService.h"
 
 namespace runc{
@@ -28,11 +28,11 @@ namespace runc{
       virtual void   reconfigure(fhicl::ParameterSet const& pset)  override;
       void   preBeginRun(const art::Run& run); 
 
-      //virtual provider_type* provider() const override { return fProp.get();}
+      virtual provider_type* provider() const override { return fProp.get();}
 
     private:
 
-      //std::unique_ptr<runc::RunConditionsProtoDUNE> fProp;
+      std::unique_ptr<runc::RunConditionsProtoDUNE> fProp;
 
     }; // class RunConditionsServiceProtoDUNE
 } //namespace runc

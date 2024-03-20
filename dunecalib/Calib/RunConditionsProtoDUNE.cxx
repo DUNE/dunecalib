@@ -30,13 +30,13 @@
 //-----------------------------------------------
 runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE()
 {
-  fUseCondb = true;
-  fIsMC = false;
+  //fUseCondb = true;
+  //fIsMC = false;
   fRunConditionsLoaded = false;
-  fCurrentTS = 0; // I think this one has to be the run number
+  fCurrentTS = 0;
   fRunNumber = 0;
-  fCSVFileName="";
-  fDBTag="";
+  //fCSVFileName="";
+  //fDBTag="";
   fTableName="";
   fTableURL="";
 }
@@ -47,13 +47,13 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE(
   fhicl::ParameterSet const& pset
 )
 {
-  fUseCondb = true;
-  fIsMC = false;
+  //fUseCondb = true;
+  //fIsMC = false;
   fRunConditionsLoaded = false;
-  fCurrentTS = 0; //Run number?
+  fCurrentTS = 0;
   fRunNumber = 0;
-  fCSVFileName="";
-  fDBTag="";
+  //fCSVFileName="";
+  //fDBTag="";
   fTableName="";
   fTableURL="";
 }
@@ -61,10 +61,13 @@ runc::RunConditionsProtoDUNE::RunConditionsProtoDUNE(
 //------------------------------------------------
 bool runc::RunConditionsProtoDUNE::Configure(fhicl::ParameterSet const& pset)
 {  
-  fUseCondb      = pset.get<bool>("UseCondb");
-  fCSVFileName   = pset.get<std::string>("CSVFileName");
-  fDBTag         = pset.get<std::string>("DBTag");
+  std::cout << "Setting up the fhicl parameters" << std::endl;
+  //fUseCondb      = pset.get<bool>("UseCondb");
+  //fCSVFileName   = pset.get<std::string>("CSVFileName");
+  //fDBTag         = pset.get<std::string>("DBTag");
+  fTableURL      = pset.get<std::string>("TableURL");
   fTableName     = pset.get<std::string>("TableName");
+  fRunNumber     = pset.get<float>("RunNumber");
   return true;
 }
 
@@ -78,9 +81,14 @@ bool runc::RunConditionsProtoDUNE::Update(uint64_t ts)
   }
 
   //database can load on time or run number
+  if (fRunNumber != 0) {
+    fCurrentTS = fRunNumber;
+    return true;
+  }
+
+
   fCurrentTS = ts;
   fRunNumber = ts;
-  // all done! 
 
   return true;
 }
@@ -119,13 +127,14 @@ bool runc::RunConditionsProtoDUNE::LoadConditionsT()
   int data_typeIdx  = ct.AddCol("data_type","string");
   int upload_tIdx   = ct.AddCol("upload_time","float");
   int start_timeIdx = ct.AddCol("start_time","float");
+  int stop_timeIdx  = ct.AddCol("stop_time","float");
   int software_versionIdx  = ct.AddCol("software_version","string");
-  int run_typeIdx   = ct.AddCol("run_type","strung");
+  int run_typeIdx   = ct.AddCol("run_type","string");
+  int bufferIdx        = ct.AddCol("buffer","float");
+  int ac_coupleIdx     = ct.AddCol("ac_couple","bool");
 
-  //std::cout << "The id of data is: " << stop_timeIdx << std::endl;
 
   ct.LoadConditionsTable();
-  //std::cout << "The id of data 1 is: " << stop_timeIdx << std::endl;
   if (ct.NRow() == 0) {
     mf::LogError("RunConditionsProtoDUNE") << "Number of rows in run conditions table is 0.  This should never be the case!";
     return false;
@@ -141,9 +150,10 @@ bool runc::RunConditionsProtoDUNE::LoadConditionsT()
     row->Col(upload_tIdx).Get(c.upload_t);
     row->Col(start_timeIdx).Get(c.start_time);
     row->Col(software_versionIdx).Get(c.software_version);
-    //row->Col(stop_timeIdx).Get(c.stop_time);    
+    row->Col(stop_timeIdx).Get(c.stop_time);    
     row->Col(run_typeIdx).Get(c.run_type);
-
+    row->Col(bufferIdx).Get(c.buffer);
+    row->Col(ac_coupleIdx).Get(c.ac_couple);
 
     fRunCond[chan] = c;
   } 
@@ -154,7 +164,7 @@ bool runc::RunConditionsProtoDUNE::LoadConditionsT()
 //------------------------------------------------
 bool runc::RunConditionsProtoDUNE::LoadRunConditions()
 {
-  if (!fUseCondb) return true;
+  //if (!fUseCondb) return true;
 
   if (fRunConditionsLoaded) return true;
 
@@ -192,13 +202,11 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
   //t.SetTag(fDBTag);
 
   t.SetVerbosity(100);
-  std::cout << "aqui si "  << std::endl;
   bool readOk = false;
-  if (!fCSVFileName.empty()) 
-    readOk = t.LoadFromCSV(fCSVFileName);
-  else
-    readOk = t.Load();
-  std::cout << "aqui no "  << std::endl;
+  //if (!fCSVFileName.empty()) 
+  //  readOk = t.LoadFromCSV(fCSVFileName);
+  //else
+  readOk = t.Load();
   if (! readOk) {
     mf::LogError("RunConditionsProtoDUNE") << "Load from run conditions database table failed.";
     
@@ -223,6 +231,7 @@ bool runc::RunConditionsProtoDUNE::LoadRunConditions()
     //The run number is stored in the tv
     c.run_number = row->VldTime();
     row->Col(data_typeIdx).Get(c.data_type);
+
     row->Col(upload_tIdx).Get(c.upload_t);
     row->Col(start_timeIdx).Get(c.start_time);
     std::cout << "3 loaded" << std::endl;

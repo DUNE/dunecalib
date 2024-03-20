@@ -25,8 +25,14 @@
 runc::RunConditionsServiceProtoDUNE::RunConditionsServiceProtoDUNE(fhicl::ParameterSet const& pset, art::ActivityRegistry &reg)
 {
   std::cout << "Service funtion 1" << std::endl;
-  //fProp.reset(new calib::LifetimeCalibProtoDUNE(pset));
-
+  fProp.reset(new runc::RunConditionsProtoDUNE(pset));
+  
+  fProp->Configure(pset);
+  fProp->GetRunNumber();
+  fProp->Update(23300); //(run.id().run());
+  fProp->LoadConditionsT();
+  runc::RunCond_t rc = fProp->GetRunConditions(0);
+  std::cout << "\tstart time = " << rc.start_time << std::endl;
   reg.sPreBeginRun.watch(this, &RunConditionsServiceProtoDUNE::preBeginRun);
 }
 
@@ -42,15 +48,16 @@ void runc::RunConditionsServiceProtoDUNE::preBeginRun(const art::Run& run)
   // one can also consider using event time through "sPreProcessEvent" by define a "preProcessEvent" function, for exmaple.
   
   //fProp->Update(runtime);
-
-  //fProp->Update(run.id().run());
+  fProp->Update(23300); //(run.id().run());
+  fProp->LoadConditionsT();
+  runc::RunCond_t rc = fProp->GetRunConditions(0);
+  std::cout << "\tstart time = " << rc.start_time << std::endl;  
 }
 
 //------------------------------------------------
 void runc::RunConditionsServiceProtoDUNE::reconfigure(fhicl::ParameterSet const& pset)
 {
-  std::cout << "Esto pasa?" << std::endl;
-  //fProp->Configure(pset);  
+  fProp->Configure(pset);  
   return;
 }
 

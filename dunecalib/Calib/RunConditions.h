@@ -29,6 +29,16 @@ namespace runc {
 
   }; // class RunConditions
 
+  class column : nutools::dbi::Column {
+
+  public:
+    template <class T> bool Getd(T& val) {
+      std::cout << "New get function " << std::endl;
+      return true;
+    }
+  }; //class column  
+
+
   // crate a class to access the database and get info
   class Table {
   
@@ -59,6 +69,7 @@ namespace runc {
     //bool LoadConditionsTable();
     bool GetDataFromWebService(Dataset&, std::string);
     bool GetDataFromWebService_dev(Dataset&, std::string);
+    bool CheckForNulls();
 
     std::string fFolder;
     std::string fConDBURL;
@@ -71,6 +82,8 @@ namespace runc {
 
     std::vector<nutools::dbi::ColumnDef> fCol;
     std::vector<nutools::dbi::Row>    fRow;
+    std::vector<std::pair<int,int> > fNullList;
+
 
   }; // class Table
 } //namespace runc

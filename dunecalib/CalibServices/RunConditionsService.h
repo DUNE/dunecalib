@@ -12,19 +12,19 @@
 
 #include "fhiclcpp/ParameterSet.h"
 #include "art/Framework/Services/Registry/ServiceMacros.h"
-#include "dunecalib/Calib/LifetimeCalib.h"
+#include "dunecalib/Calib/RunConditions.h"
 #include "larcore/CoreUtils/ServiceUtil.h"
 
 namespace runc{
     class RunConditionsService {
       public:
-      //typedef runc::RunConditions provider_type;
+      typedef runc::RunConditions provider_type;
 
       public:
       virtual ~RunConditionsService() = default;
 
       virtual void   reconfigure(fhicl::ParameterSet const& pset) = 0;
-      //virtual runc::RunConditions* provider() const = 0;
+      virtual runc::RunConditions* provider() const = 0;
 
       }; // class RunConditionsService
     } //namespace detinfo

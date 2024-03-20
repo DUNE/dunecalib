@@ -76,6 +76,21 @@ namespace runc {
     else
       return 0;
   }
+  
+  //************************************************************
+    bool Table::CheckForNulls()
+    {
+      bool isOk = fNullList.empty();
+
+      if (!isOk) // print out list of null columns
+        for (unsigned int i=0; i<fNullList.size(); ++i)
+          if (fVerbosity>0)
+            std::cerr << fCol[fNullList[i].second].Name() << " is NULL in row "
+                      << fNullList[i].first << std::endl;
+
+      return isOk;
+
+    }
 
 
   //************************************************************
@@ -157,9 +172,12 @@ namespace runc {
     releaseTuple(tu);
     tu = getNextTuple(ds);
     int irow=0;
+    std::string nn = "None";
+    std::string nu = "NULL";
     while (tu != NULL) {
       for (int i=0; i<ncol2; ++i) {	
         getStringValue(tu,i,ss,sizeof(ss),&err);
+        
         if (i == chanIdx) {
 	    uint64_t chan = strtoull(ss,NULL,10);
 	    fRow[ioff+irow].SetChannel(chan);
@@ -182,10 +200,12 @@ namespace runc {
 	      ss2[k-2] = '\0';
 	      fRow[ioff+irow].Col(colMap[i]).FastSet(ss2);
 	    }
+            else if (ss==nn) {
+               fRow[ioff+irow].Col(colMap[i]).FastSet(nn);  
+            }
             else {
               
-	      fRow[ioff+irow].Col(colMap[i]).FastSet(ss);  
-	      //std::cout << "Not storing anything"<< std::endl;
+	      fRow[ioff+irow].Col(colMap[i]).FastSet(ss); //ss 
             }
           }
         }
