@@ -26,15 +26,18 @@
 
 //-----------------------------------------------
 condb::RunConditionsServicePDUNE::RunConditionsServicePDUNE(fhicl::ParameterSet const& pset, art::ActivityRegistry &reg) {
-  std::cout << "Service funtion 1" << std::endl;
+
+  //Conditions service functions
   fProp.reset(new condb::RunConditionsProtoDUNE(pset));
-  
   fProp->Configure(pset);
-  fProp->GetRunNumber();
-  fProp->UpdateRN(23300); //(run.id().run());
+  float rn = fProp->GetRunNumber();
+  fProp->UpdateRN(rn); 
   fProp->LoadConditionsT();
+  //Load table parameters in rc
   condb::RunCond_t rc = fProp->GetRunConditions(0);
-  std::cout << "\tstart time = " << rc.start_time << std::endl;
+  std::cout << "\tstart time = " << rc.start_time 
+            << "\n\tstop time  = " << rc.stop_time
+            << "\n\tdata type = " << rc.data_type << std::endl;
   reg.sPreBeginRun.watch(this, &RunConditionsServicePDUNE::preBeginRun);
 }
 
@@ -44,13 +47,8 @@ void condb::RunConditionsServicePDUNE::preBeginRun(const art::Run& run) {
   TTimeStamp tts(ts.timeHigh(), ts.timeLow());
   uint64_t  runtime = tts.AsDouble();
   
-  std::cout << "db: runtime in runs conditions Creo que si es este" << runtime << std::endl;
-  std::cout << "El numero de run es: " << run.id() << std::endl;
+  std::cout << "db: runtime " << runtime << std::endl;
 
-  fProp->UpdateRN(23300); //(run.id().run());
-  fProp->LoadConditionsT();
-  condb::RunCond_t rc = fProp->GetRunConditions(0);
-  std::cout << "\tstart time = " << rc.start_time << std::endl;  
 }
 
 //------------------------------------------------

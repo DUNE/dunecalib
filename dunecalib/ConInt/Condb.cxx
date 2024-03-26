@@ -16,9 +16,9 @@ namespace condb {
 
   float Conditions::GetRunNumber() {
     if (fVerbosity >= 1) {
-      std::cout << "The current run number is: " << fCurrentRN << std::endl;
+      std::cout << "The run number is: " << fRunNumber << std::endl;
     }
-    return fCurrentRN; 
+    return fRunNumber; 
   }
 
 

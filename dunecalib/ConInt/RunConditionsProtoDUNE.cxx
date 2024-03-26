@@ -89,6 +89,24 @@ bool condb::RunConditionsProtoDUNE::UpdateRN(float rn) {
 }
 
 //------------------------------------------------
+// Get Run Conditions values to Null or reset to some value that is clear 
+// its not the set value but a default
+condb::RunCond_t condb::ResetRunCond_t(condb::RunCond_t rct){
+  rct ={
+  -100, //run_number
+  "None", //data_type
+  -100, //upload_t
+  -100, //start_time
+  -100, //stop_time
+  "None", //run_type
+  "None", //software_version
+  -100, //buffer
+  false, //ac_couple 
+  };
+  return rct;
+}
+
+//------------------------------------------------
 // Get the run conditions for selected channel
 condb::RunCond_t condb::RunConditionsProtoDUNE::GetRunConditions(int chanId) {
   if (!fRunConditionsLoaded) this->LoadConditionsT();
@@ -123,8 +141,8 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   int stop_timeIdx  = ct.AddCol("stop_time","float");
   int software_versionIdx  = ct.AddCol("software_version","string");
   int run_typeIdx   = ct.AddCol("run_type","string");
-  int bufferIdx        = ct.AddCol("buffer","float");
-  int ac_coupleIdx     = ct.AddCol("ac_couple","bool");
+  int bufferIdx     = ct.AddCol("buffer","float");
+  int ac_coupleIdx  = ct.AddCol("ac_couple","bool");
 
   ct.LoadConditionsTable();
   if (ct.NRow() == 0) {
@@ -133,11 +151,24 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   }
   long int chan;
   nutools::dbi::Row* row;
-  for (int i=0; i<ct.NRow(); ++i) {
-    RunCond_t c;
+  float run_row = fCurrentRN; 
+  for (int i=0; i<ct.NRow()-1; ++i) {
+    RunCond_t c; 
+    c = ResetRunCond_t(c); 
+    std::cout << c.stop_time << " is the stop time" << std::endl;
     row = ct.GetRow(i);
     chan = row->Channel();
     c.run_number = row->VldTime();
+
+    //For run based tables, if c.run_number is not the same as the run number then don't interpolate
+    //and return no run   
+    if (c.run_number != run_row  ) {
+      mf::LogError("RunConditionsProtoDUNE") << "Run number " << run_row << " is not on the database!";
+      return false;
+    }
+    run_row = run_row + 1.0;
+    
+    // Fill the columns of each row with data
     row->Col(data_typeIdx).Get(c.data_type);
     row->Col(upload_tIdx).Get(c.upload_t);
     row->Col(start_timeIdx).Get(c.start_time);

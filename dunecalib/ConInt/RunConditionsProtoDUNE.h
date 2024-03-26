@@ -41,6 +41,7 @@ namespace condb {
     bool ac_couple;
   } RunCond_t; //Name your structure
 
+  RunCond_t ResetRunCond_t(RunCond_t rct);
 
   class RunConditionsProtoDUNE : public Conditions {
 
