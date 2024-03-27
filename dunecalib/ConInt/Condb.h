@@ -47,6 +47,7 @@ namespace condb {
     std::string fTableURL;
     int fVerbosity;
     float fRunNumber;
+    float fRunNumber1;
     uint64_t fCurrentTS;
     float fCurrentRN;
   }; // class Conditions

@@ -58,7 +58,8 @@ namespace condb {
     bool UpdateRN(float rn=0);
 
     bool LoadConditionsT();
-    RunCond_t GetRunConditions(int chanId); 
+    //RunCond_t GetRunConditions(int chanId); 
+    RunCond_t GetRunConditions(float chanId);
 
     //void SetTag(std::string ta) { fDBTag = ta; }
     //void SetTableName(std::string tn) {fTableName = tn; }
@@ -81,8 +82,7 @@ namespace condb {
     //int fVerbosity;
 
     std::map<int,RunCond_t> fRunCond;    
-    
-
+    std::map<float,RunCond_t> fRunCondR;
   }; //class RunConditionsProtoDUNE
 } //namespace condb
 #endif // CONDB_RUNCONDITIONSPROTODUNE_H

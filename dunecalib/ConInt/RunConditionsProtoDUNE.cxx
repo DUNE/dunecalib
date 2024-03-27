@@ -34,11 +34,12 @@ condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE() {
   fRunConditionsLoaded = false;
   fCurrentTS = 0;
   fRunNumber = 0;
+  fRunNumber1= 0;
   fCurrentRN = 0;
   fVerbosity = 0;
   fTableName = "";
   fTableURL  = "";
-  fDBTag   = "";
+  fDBTag     = "";
 }
 
 //-----------------------------------------------
@@ -47,11 +48,12 @@ condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE(fhicl::ParameterSet const&
   fRunConditionsLoaded = false;
   fCurrentTS = 0;
   fRunNumber = 0;
+  fRunNumber1= 0;
   fCurrentRN = 0;
   fVerbosity = 0;
-  fTableName ="";
-  fTableURL = "";
-  fDBTag    = "";
+  fTableName = "";
+  fTableURL  = "";
+  fDBTag     = "";
 }
 
 
@@ -62,6 +64,7 @@ bool condb::RunConditionsProtoDUNE::Configure(fhicl::ParameterSet const& pset) {
   fTableURL      = pset.get<std::string>("TableURL");
   fTableName     = pset.get<std::string>("TableName");
   fRunNumber     = pset.get<float>("RunNumber");
+  fRunNumber1    = pset.get<float>("RunNumber1");
   fVerbosity     = pset.get<int>("Verbosity");
   return true;
 }
@@ -108,7 +111,7 @@ condb::RunCond_t condb::ResetRunCond_t(condb::RunCond_t rct){
 
 //------------------------------------------------
 // Get the run conditions for selected channel
-condb::RunCond_t condb::RunConditionsProtoDUNE::GetRunConditions(int chanId) {
+condb::RunCond_t condb::RunConditionsProtoDUNE::GetRunConditions(float chanId) { //(int chanId) {
   if (!fRunConditionsLoaded) this->LoadConditionsT();
   if (fRunCond.find(chanId) == fRunCond.end()) {
     mf::LogError("RunConditionsProtoDUNE") << "Channel " << chanId << "not found!";
@@ -128,10 +131,18 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   //How much feedback do you want. 0 is none, 2 is all
   ct.SetVerbosity(fVerbosity); 
 
-  // So as not to interpolate -> Should update!
+  // If a range of run numbers is given
+  if (fRunNumber1 != 0) {
+    ct.SetMinTSVld(fRunNumber);
+    ct.SetMaxTSVld(fRunNumber1);
+  }
+  else {
+  // So as not to interpolate 
   ct.SetMinTSVld(fCurrentRN);
   ct.SetMaxTSVld(fCurrentRN); 
-
+  }
+  
+   
   //Add the column names and types of parameters that you want
   //example
   //int data_typeIdx  = t.AddCol("data_type","string");
@@ -149,7 +160,7 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
     mf::LogError("RunConditionsProtoDUNE") << "Number of rows in run conditions table is 0.  This should never be the case!";
     return false;
   }
-  long int chan;
+  //long int chan;
   nutools::dbi::Row* row;
   float run_row = fCurrentRN; 
   for (int i=0; i<ct.NRow()-1; ++i) {
@@ -157,11 +168,11 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
     c = ResetRunCond_t(c); 
     std::cout << c.stop_time << " is the stop time" << std::endl;
     row = ct.GetRow(i);
-    chan = row->Channel();
+    //chan = row->Channel();
     c.run_number = row->VldTime();
 
     //For run based tables, if c.run_number is not the same as the run number then don't interpolate
-    //and return no run   
+    //and return that the run info is not on the db   
     if (c.run_number != run_row  ) {
       mf::LogError("RunConditionsProtoDUNE") << "Run number " << run_row << " is not on the database!";
       return false;
@@ -178,7 +189,8 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
     row->Col(bufferIdx).Get(c.buffer);
     row->Col(ac_coupleIdx).Get(c.ac_couple);
 
-    fRunCond[chan] = c;
+    //fRunCond[chan] = c;
+    fRunCond[c.run_number] = c;
   } 
   fRunConditionsLoaded = true;
   return true; 

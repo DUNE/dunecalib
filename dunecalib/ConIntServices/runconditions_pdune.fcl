@@ -7,6 +7,7 @@ pdune_runconditions :
   TableURL: "https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/" 
   TableName: "pdunesp.test"
   RunNumber: 23302.0
+  RunNumber1: 0
   DBTag:     ""
   Verbosity: 1
 }

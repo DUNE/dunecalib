@@ -74,7 +74,7 @@ int main(int argc, char **argv)
   runCond->GetRunNumber();
 
   std::cout << "Run Conditions for channel 0:" << std::endl;
-  condb::RunCond_t rc = runCond->GetRunConditions(0);
+  condb::RunCond_t rc = runCond->GetRunConditions(gRun);
   std::cout << "\tStart time = " << rc.start_time
             << "\n\tdata type = " << rc.data_type
             << "\n\trun Number/sofw = " << rc.run_number
