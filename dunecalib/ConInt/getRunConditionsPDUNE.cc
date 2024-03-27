@@ -4,20 +4,23 @@
 #include <iostream>
 
 
-int gRun = -1;
+float gRun = -1;
+float gRun1 = 0;
+
 std::string gTableName = "pdunesp.test";
 int gVerbosity = 1;
 //------------------------------------------------------------
 void PrintUsage() {
-std::cout << "Usage: getRunConditionsPDUNE -r|--run [run number] -t|--table [db table name]" << std::endl;
+std::cout << "Usage: getRunConditionsPDUNE -r|--run [run number] -f|--runf [run number f] -t|--table [db table name]" << std::endl;
 }
 
 //------------------------------------------------------------
 bool ParseCLArgs(int argc, char* argv[]) {
   struct option long_options[] = {
-    {"help",   0, 0, 'h'},
+    {"help",  0, 0, 'h'},
     {"run",   0, 0, 'r'},
-    {"table",   0, 0, 't'},
+    {"runf",  0, 0, 'f'},
+    {"table", 0, 0, 't'},
     {0,0,0,0}
   };
 
@@ -31,13 +34,23 @@ bool ParseCLArgs(int argc, char* argv[]) {
     switch(c) {
     case 'r':
       {
-	int run = atoi(optarg);
+	float run = atoi(optarg);
 	if (run < 0) {
 	  std::cout << "Invalid run number." << std::endl;
 	  exit(0);
 	}
 	gRun = run;
 	break;
+      }
+    case 'f':
+      {
+        float runf = atoi(optarg);
+        if (runf < 0) {
+          std::cout << "Invalid runf number." << std::endl;
+          exit(0);
+        }
+        gRun1 = runf;
+        break;
       }
     case 't':
       {
@@ -69,13 +82,17 @@ int main(int argc, char **argv)
   runCond->SetTableURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
   runCond->SetTableName(gTableName);
   runCond->SetVerbosity(gVerbosity);
+  runCond->SetRunNumber1(gRun1);
   runCond->UpdateRN(gRun); //When using run based tables VT when using time based
   runCond->LoadConditionsT();
-  runCond->GetRunNumber();
 
-  std::cout << "Run Conditions for channel 0:" << std::endl;
-  condb::RunCond_t rc = runCond->GetRunConditions(gRun);
-  std::cout << "\tStart time = " << rc.start_time
+  float run1;
+  if (gRun1 > 0) {run1 = gRun1;}
+  else {run1 = gRun;}
+  for (int run = gRun; run <= run1; run = run + 1) {
+    std::cout << "Run Conditions for run number: " <<  std::endl;
+    condb::RunCond_t rc = runCond->GetRunConditions(run);
+    std::cout << "\tStart time = " << rc.start_time
             << "\n\tdata type = " << rc.data_type
             << "\n\trun Number/sofw = " << rc.run_number
   	    << "\n\tupload time = " << rc.upload_t
@@ -84,7 +101,7 @@ int main(int argc, char **argv)
             << "\n\tbuffer = " << rc.buffer
             << "\n\tac_couple = " << rc.ac_couple
             << "\n\trun type = " << rc.run_type << std::endl;
-
+  }
   delete runCond;
   
   return 0;

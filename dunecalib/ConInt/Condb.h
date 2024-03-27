@@ -32,6 +32,7 @@ namespace condb {
     void SetTableURL(std::string url) {fTableURL = url; }
     void SetRunNumber(float rn) {fRunNumber = rn;}
     void SetVerbosity(int vr) {fVerbosity = vr;}
+    void SetRunNumber1(float rn1) {fRunNumber1 = rn1;}
 
     bool UpdateTS(uint64_t ts=0);
     bool UpdateRN(float rn=0);
@@ -78,7 +79,7 @@ namespace condb {
     
     // Load data to the table
     bool LoadConditionsTable();
-  
+    void GetRangeOfValues(float rn, float rn1 );  
   private:
     // get data from condb2
     bool GetDataFromWebService(Dataset&, std::string);

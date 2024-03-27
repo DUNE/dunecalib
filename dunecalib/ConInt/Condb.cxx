@@ -85,6 +85,20 @@ namespace condb {
   }
 
   //************************************************************
+  //Get data from a single row or various rows
+  void Table::GetRangeOfValues(float rn, float rn1 ) {
+    if (rn1 != 0) {
+      Table::SetMinTSVld(rn);
+      Table::SetMaxTSVld(rn1);
+    }
+    else {
+      // So as not to interpolate 
+      Table::SetMinTSVld(rn);
+      Table::SetMaxTSVld(rn);
+    }
+  }
+
+  //************************************************************
   // Gets data from the condb database and returns tuples
   bool Table::GetDataFromWebService(Dataset& ds, std::string myss) {
     Tuple tu;

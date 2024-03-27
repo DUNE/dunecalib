@@ -130,17 +130,19 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   ct.SetFolderName(fTableName);
   //How much feedback do you want. 0 is none, 2 is all
   ct.SetVerbosity(fVerbosity); 
+  ct.GetRangeOfValues(fCurrentRN,fRunNumber1);
 
+  /*
   // If a range of run numbers is given
   if (fRunNumber1 != 0) {
-    ct.SetMinTSVld(fRunNumber);
+    ct.SetMinTSVld(fCurrentRN);
     ct.SetMaxTSVld(fRunNumber1);
   }
   else {
-  // So as not to interpolate 
-  ct.SetMinTSVld(fCurrentRN);
-  ct.SetMaxTSVld(fCurrentRN); 
-  }
+    // So as not to interpolate 
+    ct.SetMinTSVld(fCurrentRN);
+    ct.SetMaxTSVld(fCurrentRN); 
+  }*/
   
    
   //Add the column names and types of parameters that you want
