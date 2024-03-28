@@ -26,13 +26,6 @@ art_make_exec( NAME getLinConstsProtoDUNE
 			dunecalib::Calib
                )
 
-art_make_exec( NAME getRunConditionsProtoDUNE
-               SOURCE getRunConditionsProtoDUNE.cc
-               LIBRARIES
-                        dunecalib::Calib
-               )
-
-
 install_headers()
 install_fhicl()
 install_source()
