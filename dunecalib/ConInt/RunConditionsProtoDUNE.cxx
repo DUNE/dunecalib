@@ -28,18 +28,6 @@
 #include "cetlib_except/exception.h"
 #include "messagefacility/MessageLogger/MessageLogger.h"
 
-//-----------------------------------------------
-//Initialize values
-condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE() {
-  InitialfVal(); 
-}
-
-//-----------------------------------------------
-//Initialize values
-condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE(fhicl::ParameterSet const& pset) {
-  InitialfVal(); 
-}
-
 
 //------------------------------------------------
 // Configure the parameters with the fhicl values

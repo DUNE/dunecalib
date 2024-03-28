@@ -47,8 +47,8 @@ namespace condb {
 
   public:
 
-    RunConditionsProtoDUNE();
-    RunConditionsProtoDUNE(fhicl::ParameterSet const& pset);
+    RunConditionsProtoDUNE() {InitialfVal();};
+    RunConditionsProtoDUNE(fhicl::ParameterSet const& pset) {InitialfVal();};
     RunConditionsProtoDUNE(RunConditionsProtoDUNE const&) = delete;
     virtual ~RunConditionsProtoDUNE() = default;
 

@@ -13,8 +13,6 @@
 #include "wda.h"
 #include "nuevdb/IFDatabase/Table.h"
 
-// FHiCL libraries
-#include "fhiclcpp/ParameterSet.h"
 
 namespace condb {
 
@@ -44,7 +42,6 @@ namespace condb {
   protected:
     Conditions() = default;
     void InitialfVal();
-    void ConfigureCond(fhicl::ParameterSet const& pset);    
 
     bool fRunConditionsLoaded; 
     std::string fTableName;
