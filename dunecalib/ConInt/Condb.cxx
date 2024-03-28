@@ -21,6 +21,19 @@ namespace condb {
     return fRunNumber; 
   }
 
+  //************************************************************
+  void Conditions::InitialfVal() {
+    fRunConditionsLoaded = false;
+    fCurrentTS = 0;
+    fRunNumber = 0;
+    fRunNumber1= 0;
+    fCurrentRN = 0;
+    fVerbosity = 0;
+    fTableName = "";
+    fTableURL  = "";
+    fDBTag     = "";
+  }
+
 
   //************************************************************
   Table::Table() {

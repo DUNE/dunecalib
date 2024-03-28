@@ -31,29 +31,13 @@
 //-----------------------------------------------
 //Initialize values
 condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE() {
-  fRunConditionsLoaded = false;
-  fCurrentTS = 0;
-  fRunNumber = 0;
-  fRunNumber1= 0;
-  fCurrentRN = 0;
-  fVerbosity = 0;
-  fTableName = "";
-  fTableURL  = "";
-  fDBTag     = "";
+  InitialfVal(); 
 }
 
 //-----------------------------------------------
 //Initialize values
 condb::RunConditionsProtoDUNE::RunConditionsProtoDUNE(fhicl::ParameterSet const& pset) {
-  fRunConditionsLoaded = false;
-  fCurrentTS = 0;
-  fRunNumber = 0;
-  fRunNumber1= 0;
-  fCurrentRN = 0;
-  fVerbosity = 0;
-  fTableName = "";
-  fTableURL  = "";
-  fDBTag     = "";
+  InitialfVal(); 
 }
 
 
@@ -123,6 +107,7 @@ condb::RunCond_t condb::RunConditionsProtoDUNE::GetRunConditions(float chanId) {
 //------------------------------------------------
 //Load the table info to the variables
 bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
+  //Add table and define parameters
   Table ct;
   //URL to where the database is
   ct.SetFolderURL(fTableURL);
@@ -132,18 +117,6 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   ct.SetVerbosity(fVerbosity); 
   ct.GetRangeOfValues(fCurrentRN,fRunNumber1);
 
-  /*
-  // If a range of run numbers is given
-  if (fRunNumber1 != 0) {
-    ct.SetMinTSVld(fCurrentRN);
-    ct.SetMaxTSVld(fRunNumber1);
-  }
-  else {
-    // So as not to interpolate 
-    ct.SetMinTSVld(fCurrentRN);
-    ct.SetMaxTSVld(fCurrentRN); 
-  }*/
-  
    
   //Add the column names and types of parameters that you want
   //example
@@ -168,12 +141,11 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   for (int i=0; i<ct.NRow()-1; ++i) {
     RunCond_t c; 
     c = ResetRunCond_t(c); 
-    std::cout << c.stop_time << " is the stop time" << std::endl;
     row = ct.GetRow(i);
     //chan = row->Channel();
-    c.run_number = row->VldTime();
+    c.run_number = row->VldTime(); //for tables with run as key
 
-    //For run based tables, if c.run_number is not the same as the run number then don't interpolate
+    //For tables with run as key, if c.run_number is not the same as the run number then don't interpolate
     //and return that the run info is not on the db   
     if (c.run_number != run_row  ) {
       mf::LogError("RunConditionsProtoDUNE") << "Run number " << run_row << " is not on the database!";
@@ -199,16 +171,4 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
+ 

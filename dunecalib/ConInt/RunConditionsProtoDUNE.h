@@ -58,29 +58,12 @@ namespace condb {
     bool UpdateRN(float rn=0);
 
     bool LoadConditionsT();
-    //RunCond_t GetRunConditions(int chanId); 
     RunCond_t GetRunConditions(float chanId);
 
-    //void SetTag(std::string ta) { fDBTag = ta; }
-    //void SetTableName(std::string tn) {fTableName = tn; }
-    //void SetTableURL(std::string url) {fTableURL = url; }
-    //void SetRunNumber(float rn) {fRunNumber = rn;}
-    //void SetVerbosity(int vr) {fVerbosity = vr;}
-
-    //void GetRunNumber() {std::cout << "Run Number: "<< fRunNumber << std::endl;}
 
   protected:
     bool LoadRunConditions();
     
-    //bool fRunConditionsLoaded;
-    //uint64_t fCurrentTS;
-    //float fCurrentRN;
-    //float fRunNumber;
-    //std::string fDBTag;
-    //std::string fTableName;
-    //std::string fTableURL;
-    //int fVerbosity;
-
     std::map<int,RunCond_t> fRunCond;    
     std::map<float,RunCond_t> fRunCondR;
   }; //class RunConditionsProtoDUNE

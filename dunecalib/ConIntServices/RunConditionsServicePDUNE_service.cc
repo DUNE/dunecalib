@@ -34,7 +34,7 @@ condb::RunConditionsServicePDUNE::RunConditionsServicePDUNE(fhicl::ParameterSet 
   fProp->UpdateRN(rn); 
   fProp->LoadConditionsT();
   //Load table parameters in rc
-  condb::RunCond_t rc = fProp->GetRunConditions(0);
+  condb::RunCond_t rc = fProp->GetRunConditions(rn);
   std::cout << "\tstart time = " << rc.start_time 
             << "\n\tstop time  = " << rc.stop_time
             << "\n\tdata type = " << rc.data_type << std::endl;
