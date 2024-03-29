@@ -3,12 +3,14 @@
 #include <getopt.h>
 #include <iostream>
 
+// Set the variables here or some in terminal
+float gRun = -1; //first run number
+float gRun1 = 0; //not necesary, last run number
+std::string gDBTag = "v1.3"; // version of the database table
+std::string gTableName = "pdunesp.test"; //name of the database table as: schema.tablename
+int gVerbosity = 1; //how much output to get where 0 is none, 1 more...
+std::string gTableURL = "https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/"; // table url
 
-float gRun = -1;
-float gRun1 = 0;
-
-std::string gTableName = "pdunesp.test";
-int gVerbosity = 1;
 //------------------------------------------------------------
 void PrintUsage() {
 std::cout << "Usage: getRunConditionsPDUNE -r|--run [run number] -f|--runf [run number f] -t|--table [db table name]" << std::endl;
@@ -79,11 +81,12 @@ int main(int argc, char **argv)
   }
 
   condb::RunConditionsProtoDUNE* runCond = new condb::RunConditionsProtoDUNE();
-  runCond->SetTableURL("https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/");
+  runCond->SetTableURL(gTableURL);
   runCond->SetTableName(gTableName);
   runCond->SetVerbosity(gVerbosity);
   runCond->SetRunNumber1(gRun1);
-  runCond->UpdateRN(gRun); //When using run based tables VT when using time based
+  runCond->UpdateRN(gRun); //When using tables with run as key (UpdateRN), when using tables with time as key (UpdateVT)
+  runCond->SetTag(gDBTag);
   runCond->LoadConditionsT();
 
   float run1;

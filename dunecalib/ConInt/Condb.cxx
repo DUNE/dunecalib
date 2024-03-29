@@ -240,7 +240,6 @@ namespace condb {
         std::cerr << "Table::LoadConditionsTable-run: Validity time or Run number is not set!" << std::endl;
         return false;
     }
-
     std::stringstream myss;
     myss << fConDBURL << "get?folder=" << fFolder << "&";
     if (fTag != "") myss << "tag=" << fTag << "&";

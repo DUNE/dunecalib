@@ -8,7 +8,7 @@ pdune_runconditions :
   TableName: "pdunesp.test"
   RunNumber: 23302.0
   RunNumber1: 0
-  DBTag:     ""
+  DBTag:     "v1.1"
   Verbosity: 1
 }
 

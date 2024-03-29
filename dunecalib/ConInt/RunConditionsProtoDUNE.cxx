@@ -104,8 +104,9 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   //How much feedback do you want. 0 is none, 2 is all
   ct.SetVerbosity(fVerbosity); 
   ct.GetRangeOfValues(fCurrentRN,fRunNumber1);
-
-   
+  ct.SetTTag(fDBTag);
+  
+ 
   //Add the column names and types of parameters that you want
   //example
   //int data_typeIdx  = t.AddCol("data_type","string");

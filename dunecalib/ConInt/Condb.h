@@ -71,13 +71,14 @@ namespace condb {
     int NRow() {return fRow.size();}
     int AddCol(std::string cname, std::string ctype);
     
-    // functions for c++ interface
+    // functions for table parameters
     void SetFolderName(std::string folder) {fFolder = folder;};
     void SetFolderURL(std::string url) {fConDBURL = url;};
     void SetVerbosity(int i) { fVerbosity = i;}
     void SetMinTSVld(double t) { fMinTSVld = t;}
     void SetMaxTSVld(double t) { fMaxTSVld = t;}
-    
+    void SetTTag(std::string tg) {fTag = tg;}    
+ 
     // Load data to the table
     bool LoadConditionsTable();
     void GetRangeOfValues(float rn, float rn1 );  
