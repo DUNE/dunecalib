@@ -39,6 +39,9 @@ namespace condb {
     std::string software_version;
     int buffer;
     bool ac_couple;
+    int baseline;
+    bool enabled;
+    float gain;
   } RunCond_t; //Name your structure
 
   RunCond_t ResetRunCond_t(RunCond_t rct);

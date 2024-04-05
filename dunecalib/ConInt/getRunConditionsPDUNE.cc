@@ -86,7 +86,7 @@ int main(int argc, char **argv)
   runCond->SetVerbosity(gVerbosity);
   runCond->SetRunNumber1(gRun1);
   runCond->UpdateRN(gRun); //When using tables with run as key (UpdateRN), when using tables with time as key (UpdateVT)
-  runCond->SetTag(gDBTag);
+  //runCond->SetTag(gDBTag);
   runCond->LoadConditionsT();
 
   float run1;
