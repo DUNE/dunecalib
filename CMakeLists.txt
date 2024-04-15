@@ -8,7 +8,7 @@ cmake_minimum_required (VERSION 3.20 FATAL_ERROR)
 
 find_package(cetmodules REQUIRED)
 project(dunecalib LANGUAGES CXX)
-set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.83.01d00)
+set(${PROJECT_NAME}_CMAKE_PROJECT_VERSION_STRING 09.89.01d00)
 
 # cetbuildtools contains our cmake modules
 
@@ -27,9 +27,10 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
 
 cet_report_compiler_flags()
 
-find_package( art REQUIRED )
+find_package( art REQUIRED EXPORT )
 find_package( art_root_io REQUIRED )
 find_package( canvas_root_io REQUIRED )
+find_package( canvas REQUIRED EXPORT )
 find_package( Boost REQUIRED )
 find_package(ROOT REQUIRED)
 find_package( larcore REQUIRED )
