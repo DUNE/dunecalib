@@ -36,12 +36,27 @@ namespace condb {
     float start_time;
     float stop_time;
     std::string run_type;
+    std::string detector_id;
     std::string software_version;
     int buffer;
-    bool ac_couple;
+    std::string ac_couple;
     int baseline;
     bool enabled;
     float gain;
+    bool gain_match;
+    float leak;
+    bool leak_10x;
+    float leak_f;
+    float peak_time;
+    int pulse_dac;
+    int strobe_delay;
+    int strobe_length;
+    int strobe_skip;
+    bool test_cap;
+    bool adc_test_pattern;
+    bool cold;
+    std::string detector_type;
+    bool pulser;
   } RunCond_t; //Name your structure
 
   RunCond_t ResetRunCond_t(RunCond_t rct);

@@ -63,6 +63,7 @@ bool condb::RunConditionsProtoDUNE::UpdateRN(float rn) {
   return true;
 }
 
+
 //------------------------------------------------
 // Get Run Conditions values to Null or reset to some value that is clear 
 // its not the set value but a default
@@ -74,12 +75,31 @@ condb::RunCond_t condb::ResetRunCond_t(condb::RunCond_t rct){
   -100, //start_time
   -100, //stop_time
   "None", //run_type
+  "None", //detector_id;
   "None", //software_version
   -100, //buffer
-  false, //ac_couple 
+  "None", //ac_couple 
+  -100, //baseline
+  false, //enabled
+  -100, //gain
+  false, //gain_match
+  -100, //leak
+  false, //leak_10x
+  -100, //leak_f
+  -100, //peak_time
+  -100, //pulse_dac
+  -100, //strobe_delay
+  -100, //strobe_length
+  -100, //strobe_skip
+  false, //test_cap
+  false, //adc_test_pattern
+  false, //cold
+  "None", //detector_type
+  false //pulser
   };
   return rct;
 }
+
 
 //------------------------------------------------
 // Get the run conditions for selected channel
@@ -118,6 +138,25 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   int run_typeIdx   = ct.AddCol("run_type","string");
   int bufferIdx     = ct.AddCol("buffer","float");
   int ac_coupleIdx  = ct.AddCol("ac_couple","bool");
+  int detector_idIdx   = ct.AddCol("detector_id","string");
+  int baselineIdx   = ct.AddCol("baseline", "integer");
+  int enabledIdx    = ct.AddCol("enabled", " bool");
+  int gainIdx       = ct.AddCol("gain", "float");
+  int gain_matchIdx = ct.AddCol("gain_match", "bool");
+  int leakIdx       = ct.AddCol("leak",  "float");
+  int leak_10xIdx   = ct.AddCol("leak_10x",  "bool");
+  int leak_fIdx     = ct.AddCol("leak_f", "float");
+  int peak_timeIdx  = ct.AddCol("peak_time", "float");
+  int pulse_dacIdx  = ct.AddCol("pulse_dac", "integer");
+  int strobe_delayIdx = ct.AddCol("strobe_delay", "integer");
+  int strobe_lengthIdx= ct.AddCol("strobe_length", "integer");
+  int strobe_skipIdx = ct.AddCol("strobe_skip", "integer");
+  int test_capIdx    = ct.AddCol("test_cap", "bool");
+  int adc_test_patternIdx = ct.AddCol("adc_test_pattern", "bool");
+  int coldIdx       = ct.AddCol("cold", "bool");
+  int detector_typeIdx = ct.AddCol("detector_type", "string");
+  int pulserIdx     = ct.AddCol("pulser", "bool");
+
 
   ct.LoadConditionsTable();
   if (ct.NRow() == 0) {
@@ -151,6 +190,25 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
     row->Col(run_typeIdx).Get(c.run_type);
     row->Col(bufferIdx).Get(c.buffer);
     row->Col(ac_coupleIdx).Get(c.ac_couple);
+    row->Col(detector_idIdx).Get(c.detector_id);
+    row->Col(baselineIdx).Get(c.baseline);
+    row->Col(enabledIdx).Get(c.enabled);
+    row->Col(gainIdx).Get(c.gain);
+    row->Col(gain_matchIdx).Get(c.gain_match);
+    row->Col(leakIdx).Get(c.leak);
+    row->Col(leak_10xIdx).Get(c.leak_10x);
+    row->Col(leak_fIdx).Get(c.leak_f);
+    row->Col(peak_timeIdx).Get(c.peak_time);
+    row->Col(pulse_dacIdx).Get(c.pulse_dac);
+    row->Col(strobe_delayIdx).Get(c.strobe_delay);
+    row->Col(strobe_lengthIdx).Get(c.strobe_length);
+    row->Col(strobe_skipIdx).Get(c.strobe_skip);
+    row->Col(test_capIdx).Get(c.test_cap);
+    row->Col(adc_test_patternIdx).Get(c.adc_test_pattern);
+    row->Col(coldIdx).Get(c.cold);
+    row->Col(detector_typeIdx).Get(c.detector_type);
+    row->Col(pulserIdx).Get(c.pulser);
+
 
     //fRunCond[chan] = c;
     fRunCond[c.run_number] = c;

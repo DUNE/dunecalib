@@ -53,7 +53,7 @@ namespace condb {
   //************************************************************
   //Add just the columns that you want to retrieve data from
   int Table::AddCol(std::string cname, std::string ctype) {
-    if (fVerbosity >= 1) {
+    if (fVerbosity >= 2) {
       std::cout << "Adding column: " << cname << std::endl;
     }
     for (size_t i=0; i<fCol.size(); ++i) {

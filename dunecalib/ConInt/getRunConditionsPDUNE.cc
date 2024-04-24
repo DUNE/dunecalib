@@ -6,8 +6,8 @@
 // Set the variables here or some in terminal
 float gRun = -1; //first run number
 float gRun1 = 0; //not necesary, last run number
-std::string gDBTag = "v1.3"; // version of the database table
-std::string gTableName = "pdunesp.test"; //name of the database table as: schema.tablename
+//std::string gDBTag = "v1.3"; // version of the database table
+std::string gTableName = "pdunesp.run_conditionstest"; //name of the database table as: schema.tablename pdunesp.test
 int gVerbosity = 1; //how much output to get where 0 is none, 1 more...
 std::string gTableURL = "https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/"; // table url
 
@@ -79,23 +79,22 @@ int main(int argc, char **argv)
     PrintUsage();
     return 1;
   }
-
   condb::RunConditionsProtoDUNE* runCond = new condb::RunConditionsProtoDUNE();
   runCond->SetTableURL(gTableURL);
   runCond->SetTableName(gTableName);
   runCond->SetVerbosity(gVerbosity);
   runCond->SetRunNumber1(gRun1);
   runCond->UpdateRN(gRun); //When using tables with run as key (UpdateRN), when using tables with time as key (UpdateVT)
+
   //runCond->SetTag(gDBTag);
   runCond->LoadConditionsT();
-
   float run1;
   if (gRun1 > 0) {run1 = gRun1;}
   else {run1 = gRun;}
   for (int run = gRun; run <= run1; run = run + 1) {
     std::cout << "Run Conditions for run number: " <<  std::endl;
     condb::RunCond_t rc = runCond->GetRunConditions(run);
-    std::cout << "\tStart time = " << rc.start_time
+    std::cout << "\tStart time = " << rc.start_time << std::endl;
             << "\n\tdata type = " << rc.data_type
             << "\n\trun Number/sofw = " << rc.run_number
   	    << "\n\tupload time = " << rc.upload_t

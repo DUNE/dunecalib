@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////
 //// \file RunConditionsProtoDUNE_service.cc
 ////
-//// \brief implementation of class for storing/accessing run conditions parameters for ProtoDUNE
+//// \brief implementation of class for accessing run conditions parameters for ProtoDUNE
 ////
 //// \author avizcaya@colostate.edu
 //// \date Jan 19, 2024
