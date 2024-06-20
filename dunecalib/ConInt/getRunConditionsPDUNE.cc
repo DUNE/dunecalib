@@ -94,7 +94,7 @@ int main(int argc, char **argv)
   for (int run = gRun; run <= run1; run = run + 1) {
     std::cout << "Run Conditions for run number: " <<  std::endl;
     condb::RunCond_t rc = runCond->GetRunConditions(run);
-    std::cout << "\tStart time = " << rc.start_time << std::endl;
+    std::cout << "\tStart time = " << rc.start_time << std::endl
             << "\n\tdata type = " << rc.data_type
             << "\n\trun Number/sofw = " << rc.run_number
   	    << "\n\tupload time = " << rc.upload_t
