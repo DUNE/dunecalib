@@ -57,6 +57,11 @@ namespace condb {
     bool cold;
     std::string detector_type;
     bool pulser;
+    float beam_momentum;
+    float beam_polarity;
+    float detector_hv;
+    float detector_hvset;
+    float beam_setmomentum;
   } RunCond_t; //Name your structure
 
   RunCond_t ResetRunCond_t(RunCond_t rct);
