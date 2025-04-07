@@ -15,8 +15,9 @@ cet_build_plugin(RunConditionsServicePDUNE art::service
               messagefacility::MF_MessageLogger
               cetlib::cetlib 
               cetlib_except::cetlib_except
-              ROOT_BASIC_LIB_LIST
-)
+              ROOT::Tree
+              larcore::ServiceUtil
+	    )
 
 
 

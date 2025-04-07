@@ -10,7 +10,7 @@ art_make_library(  LIBRARY_NAME dunecalib::condb
 			cetlib_except::cetlib_except
                         messagefacility::MF_MessageLogger
 			fhiclcpp::fhiclcpp
-                        ROOT_BASIC_LIB_LIST
+                        ROOT::Tree
 			
         )
 
