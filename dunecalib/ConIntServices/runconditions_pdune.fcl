@@ -5,10 +5,10 @@ pdune_runconditions :
   service_provider: "RunConditionsServicePDUNE"
 
   TableURL: "https://dbdata0vm.fnal.gov:9443/dune_runcon_prod/" 
-  TableName: "pdunesp.test"
-  RunNumber: 23302.0
+  TableName: "pdunesp.run_conditionstest"
+  RunNumber: 27345.0
   RunNumber1: 0
-  DBTag:     "v1.1"
+  DBTag:     "v1.4"
   Verbosity: 1
 }
 

@@ -16,6 +16,7 @@
 #include <vector>
 #include "math.h"
 #include "stdio.h"
+#include <optional>
 
 // LArSoft includes
 #include "dunecalib/ConInt/RunConditionsProtoDUNE.h"
@@ -68,34 +69,41 @@ bool condb::RunConditionsProtoDUNE::UpdateRN(float rn) {
 // Get Run Conditions values to Null or reset to some value that is clear 
 // its not the set value but a default
 condb::RunCond_t condb::ResetRunCond_t(condb::RunCond_t rct){
+  std::optional<float> myFloat = std::nullopt;
+  if (myFloat) {std::cout << "myFloat contains: " << *myFloat << std::endl;}
   rct ={
-  -100, //run_number
+  -99999, //run_number
   "None", //data_type
-  -100, //upload_t
-  -100, //start_time
-  -100, //stop_time
+  -99999, //upload_t
+  -99999, //start_time
+  -99999, //stop_time
   "None", //run_type
   "None", //detector_id;
   "None", //software_version
-  -100, //buffer
+  -99999, //buffer
   "None", //ac_couple 
-  -100, //baseline
+  -99999, //baseline
   false, //enabled
-  -100, //gain
+  -99999, //gain
   false, //gain_match
-  -100, //leak
+  -99999, //leak
   false, //leak_10x
-  -100, //leak_f
-  -100, //peak_time
-  -100, //pulse_dac
-  -100, //strobe_delay
-  -100, //strobe_length
-  -100, //strobe_skip
+  -99999, //leak_f
+  -99999, //peak_time
+  -99999, //pulse_dac
+  -99999, //strobe_delay
+  -99999, //strobe_length
+  -99999, //strobe_skip
   false, //test_cap
   false, //adc_test_pattern
   false, //cold
   "None", //detector_type
-  false //pulser
+  false, //pulser
+  -99999, //beam_momentum
+  -99999, //beam_polarity
+  -99999, //detector_hv
+  -99999, //detector_hvset
+  -99999 //beam_setmomentum
   };
   return rct;
 }
@@ -156,7 +164,11 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
   int coldIdx       = ct.AddCol("cold", "bool");
   int detector_typeIdx = ct.AddCol("detector_type", "string");
   int pulserIdx     = ct.AddCol("pulser", "bool");
-
+  int beam_momentumIdx = ct.AddCol("beam_momentum", "float");
+  int beam_polarityIdx = ct.AddCol("beam_polarity", "float");
+  int detector_hvIdx = ct.AddCol("detector_hv", "float");
+  int detector_hvsetIdx = ct.AddCol("detector_hvset", "float");
+  int beam_setmomentumIdx = ct.AddCol("beam_setmomentum", "float");
 
   ct.LoadConditionsTable();
   if (ct.NRow() == 0) {
@@ -208,7 +220,11 @@ bool condb::RunConditionsProtoDUNE::LoadConditionsT() {
     row->Col(coldIdx).Get(c.cold);
     row->Col(detector_typeIdx).Get(c.detector_type);
     row->Col(pulserIdx).Get(c.pulser);
-
+    row->Col(beam_momentumIdx).Get(c.beam_momentum);
+    row->Col(beam_polarityIdx).Get(c.beam_polarity);
+    row->Col(detector_hvIdx).Get(c.detector_hv);
+    row->Col(detector_hvsetIdx).Get(c.detector_hvset);
+    row->Col(beam_setmomentumIdx).Get(c.beam_setmomentum);
 
     //fRunCond[chan] = c;
     fRunCond[c.run_number] = c;
