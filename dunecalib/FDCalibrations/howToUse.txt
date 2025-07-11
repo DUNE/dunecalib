@@ -1,0 +1,7 @@
+Written July 2025 by Alex Moor (a.f.moor@sheffield.ac.uk)
+
+After pulling, export your main directory as $CALIBDIR.
+
+You should then be able to run with the command root -l -b run<name>.C
+
+You will need to run the files wihtout the BDT applied first to produce background and signal files. You need to then train the BDT with trainTMVABDT.C. You can visulise it with tmvaReader.C. You will then be able to run the files with BDTApplied.
