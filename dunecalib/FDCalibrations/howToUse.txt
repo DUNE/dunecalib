@@ -2,6 +2,11 @@ Written July 2025 by Alex Moor (a.f.moor@sheffield.ac.uk)
 
 After pulling, export your main directory as $CALIBDIR.
 
-You should then be able to run with the command root -l -b run<name>.C
+You should then be able to run with the command root -l -b run_<name>.C.
+Once it has been loaded within root, set it going with <name>("config/<txt>.cpp"). The config files also contain the file path of the input files.
 
 You will need to run the files wihtout the BDT applied first to produce background and signal files. You need to then train the BDT with trainTMVABDT.C. You can visulise it with tmvaReader.C. You will then be able to run the files with BDTApplied.
+
+Outputs:
+_MBM -> It will output a chi2 value between the theory and reconstruction, for bins over 120cm of residual range. It will also produce a number of useful plots including: reco dQdx, reco dEdx, theoretical values, most probably bin values, and calibrated dEdx compared to the MPV in theory and reco bins.
+Not MBM ->  It will output three parameter values to be used in the fitting of the calibration ratio plot. You must input these as constants to the top of the script then run it a second time if you wish to have updated plots with new numbers. A number of useful plots are also produced, including: reco dQdx, reco dEdx (second time), most probable values, theoretical values, calibration ratio, and calibrated dEdx compared to the MPV in theory and reco bins.
