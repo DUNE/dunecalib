@@ -1,0 +1,12 @@
+#include "standard_reco2_dune10kt.fcl"
+
+physics.producers.pandora: @local::dunefd_pandora_cosmic
+physics.reco: ["linecluster",
+      "trajcluster",
+      "pandora",
+      "pandoraTrack",
+      "pandoraShower",
+      "pandoracalo",
+      "pandorapid",
+      "trkshowersplit",
+      "rns"]
