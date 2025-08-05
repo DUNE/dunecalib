@@ -8,7 +8,7 @@ Once it has been loaded within root, set it going with <name>("config/<txt>.cpp"
 You will need to run the files wihtout the BDT applied first to produce background and signal files. You need to then train the BDT with trainTMVABDT.C. You can visulise it with tmvaReader.C. You will then be able to run the files with BDTApplied.
 
 Inputs:
-The inputs are analysis tree files, having been run though standard gen, g4, detsim, reco1. A slightly modified reco2 file was run to ensure it ran PandoraCosmic as opposed to the standard neutrino chain. The ana stage used was a slightly modified version of the standard ana in order to grab the specific variables needed. 
+The inputs are analysis tree files, having been run though standard gen, g4, detsim, reco1. A slightly modified reco2 file was run to ensure it ran PandoraCosmic as opposed to the standard neutrino chain. The ana stage used was a slightly modified version of the standard ana in order to grab the specific variables needed. Both of these can be found under /fcls/. 
 
 Outputs:
 _MBM -> It will output a chi2 value between the theory and reconstruction, for bins over 120cm of residual range. It will also produce a number of useful plots including: reco dQdx, reco dEdx, theoretical values, most probably bin values, and calibrated dEdx compared to the MPV in theory and reco bins.
